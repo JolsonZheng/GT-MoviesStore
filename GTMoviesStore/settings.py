@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.MoviesstoreConfig',
-    'movies',
+    'movies'
 ]
 
 MIDDLEWARE = [
@@ -57,8 +57,8 @@ ROOT_URLCONF = 'GTMoviesStore.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,
-                              'GTMoviesStore/templates')],
+        'DIRS': [BASE_DIR / 'templates']
+        ,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,9 +125,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_DIRS = [
-    BASE_DIR / 'GTMoviesStore/static/',
-]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media') # The path where uploaded files are stored.
 MEDIA_URL = '/media/' # For example, if you upload an image named example.jpg, it might be accessible at a URL like http://localhost:8000/media/example.jpg.
