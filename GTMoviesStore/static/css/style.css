@@ -144,3 +144,9 @@ body {
 html {
     scroll-behavior: smooth;
 }
+
+il {
+    text-transform: none;
+    font-weight: normal;
+    font-size: medium;
+  }
