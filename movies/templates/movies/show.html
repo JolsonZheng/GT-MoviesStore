@@ -1,96 +1,108 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<div class="p-3">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+  /*  dark background */
+  body {
+    background-color: #141414; 
+    color: white;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .card {
+    background-color: #333; /* Dark background (cards) */
+    border: 1px solid #444; /* Slightly darker border */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  }
+
+  .card-title {
+    color: #e50914; 
+    font-weight: 600;
+  }
+
+  .card-text.price {
+    color: #aa533d; 
+    font-weight: 600;
+  }
+
+  /* Description text styling */
+  .card-text.description {
+    color: #bbbbbb;
+  }
+
+  /* Hover effect */
+  .card-img-top {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  .card-img-top:hover {
+    transform: scale(1.05); /* Zoom effect */
+    opacity: 0.9; /* fade effect */
+  }
+
+
+  .btn.bg-dark {
+    background-color: #222; /* Dark background for buttons */
+    color: white; /* White text */
+    border-radius: 5px;
+  }
+
+  .btn.bg-dark:hover {
+    background-color: #444; /* hover  makes button lighter */
+  }
+
+  /* Center the content vertically in the container */
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 40px;
+  }
+
+  /* card spacing */
+  .col-md-6 {
+    margin-bottom: 20px;
+  }
+
+  .card-body .btn {
+    margin-top: 15px;
+  }
+
+  .img-fluid {
+    border-radius: 10px;
+  }
+</style>
+
+<div class="p-4">
   <div class="container">
     <div class="row mt-3">
       <div class="col-md-6 mx-auto mb-3">
         <h2>{{ template_data.movie.name }}</h2>
         <hr />
         <p><b>Description:</b> {{ template_data.movie.description }}</p>
-        <p>
-          <b>Price:</b> ${{template_data.movie.price }}
-        </p>
-        <p class="card-text">
-          <form method="post"
-            action="{% url 'cart.add' id=template_data.movie.id %}">
-            <div class="row">
-              {% csrf_token %}
-              <div class="col-auto">
-                <div class="input-group col-auto">
-                  <div class="input-group-text">Quantity
-                    </div>
-                  <input type="number" min="1" max="10"
-                    class="form-control quantity-input"
-                    name="quantity" value="1">
-                </div>
-              </div>
-              <div class="col-auto">
-                <button class="btn bg-dark text-white"
-                  type="submit">Add to cart</button>
-              </div>
-            </div>
-          </form>
-        </p>
-        <h2>Reviews</h2>
-        <hr />
-        <ul class="list-group">
-          {% for review in template_data.reviews %}
-          <li class="list-group-item pb-3 pt-3">
-            <h5 class="card-title">
-              Review by {{ review.user.username }}
-            </h5>
-            <h6 class="card-subtitle mb-2 text-muted">
-              {{ review.date }}
-            </h6>
-            <p class="card-text">{{ review.comment }}</p>
-            {% if user.is_authenticated and user == review.user %}
-            <a class="btn btn-primary"
-              href="{% url 'movies.edit_review' id=template_data.movie.id review_id=review.id %}">Edit
-            </a>
-            <a class="btn btn-danger"
-              href="{% url 'movies.delete_review' id=template_data.movie.id review_id=review.id %}">Delete
-            </a>
-            {% endif %}
-          </li>
-          {% endfor %}
-        </ul>
-        {% if user.is_authenticated %}
-        <div class="container mt-4">
-          <div class="row justify-content-center">
-            <div class="col-12">
-              <div class="card shadow p-3 mb-4 rounded">
-                <div class="card-body">
-                  <b class="text-start">Create a review
-                    </b><br /><br />
-                  <form method="POST" action=
-                    "{% url 'movies.create_review' id=template_data.movie.id %}">
-                    {% csrf_token %}
-                    <p>
-                      <label for="comment">Comment:</label>
-                      <textarea name="comment" required
-                      class="form-control"
-                      id="comment"></textarea>
-                    </p>
-                    <div class="text-center">
-                      <button type="submit"
-                        class="btn bg-dark text-white">
-                        Add Review
-                      </button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        {% endif %}
+        <p><b>Price:</b> ${{ template_data.movie.price }}</p>
       </div>
       <div class="col-md-6 mx-auto mb-3 text-center">
-        <img src="{{ template_data.movie.image.url }}"
-          class="rounded img-card-400" />
+        <img src="{{ template_data.movie.image.url }}" class="rounded img-card-400" />
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  // Image hover effect
+  document.querySelector('.card-img-top').addEventListener('mouseover', function() {
+    this.style.transform = 'scale(1.05)';
+    this.style.opacity = '0.9';
+  });
+  document.querySelector('.card-img-top').addEventListener('mouseout', function() {
+    this.style.transform = 'scale(1)';
+    this.style.opacity = '1';
+  });
+</script>
+
 {% endblock content %}

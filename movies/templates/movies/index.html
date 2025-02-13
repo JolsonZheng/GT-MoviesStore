@@ -1,6 +1,82 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+<style>
+  /* Dark Mode for the entire page */
+  body {
+    background-color: #141414; /* Dark background */
+    color: white; /* Light text color */
+    font-family: 'Roboto', sans-serif; /* Use Roboto for body text */
+  }
+
+  /* Set background for card containers */
+  .card {
+    background-color: #333; /* Dark background for cards */
+    border: 1px solid #444; /* Slightly lighter border */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Darker shadow for cards */
+  }
+
+  /* Hover effect for the cards */
+  .card:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5); /* Darker shadow on hover */
+  }
+
+  /* Style for the movie images */
+  .card-img-top {
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  }
+
+  .card-img-top:hover {
+    transform: scale(1.1); /* Zoom effect on hover */
+    opacity: 0.8; /* Fade effect */
+  }
+
+  /* Style for the movie name and button */
+  .btn.bg-dark {
+    background-color: #222; /* Dark background for the button */
+    color: white; /* White text */
+    border-radius: 5px;
+  }
+
+  .btn.bg-dark:hover {
+    background-color: #444; /* Lighter button on hover */
+  }
+
+  /* Input fields for search */
+  .input-group-text {
+    background-color: #555; /* Dark background for the input label */
+    color: white;
+  }
+
+  .form-control {
+    background-color: #222; /* Dark background for input field */
+    color: white; /* Light text */
+    border-radius: 5px;
+  }
+
+  .form-control::placeholder {
+    color: #aaa; /* Lighter placeholder text */
+  }
+
+  /* Custom styles for the search form and title */
+  h2 {
+    color: #e50914; /* Netflix-style red for the title */
+    font-family: 'Poppins', sans-serif; /* Use Poppins for the headers */
+    font-size: 2.5rem;
+    font-weight: 600; /* Bold header */
+  }
+
+  .input-group, .btn {
+    margin-bottom: 20px;
+  }
+
+  .container {
+    padding-top: 40px;
+  }
+</style>
+
 <div class="p-3">
   <div class="container">
     <div class="row mt-3">
@@ -13,7 +89,7 @@
               <div class="col-auto">
                 <div class="input-group col-auto">
                   <div class="input-group-text">Search</div>
-                  <input type="text" class="form-control" name="search">
+                  <input type="text" class="form-control" name="search" placeholder="Search movies...">
                 </div>
               </div>
               <div class="col-auto">
