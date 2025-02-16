@@ -1,43 +1,124 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
+<style>
+  body {
+    background-color: #141414; /* Dark background */
+    color: #e5e5e5;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* Centered search bar
+  .search-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px;
+  } */
+
+  .input-group-text {
+    background-color: #e50914;
+    color: white;
+    border: none;
+  }
+
+  .form-control {
+    background-color: #222;
+    color: white;
+    border: 1px solid #555;
+  }
+
+  .btn {
+    background-color: #e50914;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .btn:hover {
+    filter: brightness(1.1);
+  }
+
+  /* Grid layout for movie cards */
+  .movie-card {
+    background-color: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .movie-card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+  }
+
+  /* Card images */
+  .movie-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .movie-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+  }
+
+  /* Container for the movie grid */
+  .movie-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  /* Search bar style */
+  .search-bar {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+  }
+
+</style>
+
 <div class="p-3">
   <div class="container">
-    <div class="row mt-3">
-      <div class="col mx-auto mb-3">
-        <h2>List of Movies</h2>
-        <hr />
-        <p class="card-text">
-          <form method="GET">
-            <div class="row">
-              <div class="col-auto">
-                <div class="input-group col-auto">
-                  <div class="input-group-text">Search</div>
-                  <input type="text" class="form-control" name="search">
-                </div>
-              </div>
-              <div class="col-auto">
-                <button class="btn bg-dark text-white" type="submit">Search</button>
+    <!-- Search Bar -->
+    <div class="search-container text-center">
+      <h2>List of Movies</h2>
+      <div class="search-bar">
+        <form method="GET">
+          <div class="row">
+            <div class="col-auto">
+              <div class="input-group col-auto">
+                <div class="input-group-text">Search</div>
+                <input type="text" class="form-control" name="search" placeholder="Search for movies...">
               </div>
             </div>
-          </form>
-        </p>
+            <div class="col-auto">
+              <button class="btn" type="submit">Search</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-    <div class="row">
+
+    <!-- Movie Grid -->
+    <div class="movie-container mt-4">
       {% for movie in template_data.movies %}
-      <div class="col-md-4 col-lg-3 mb-2">
-        <div class="p-2 card align-items-center pt-4">
-          <img src="{{ movie.image.url }}" class="card-img-top rounded img-card-200">
-          <div class="card-body text-center">
-            <a href="{% url 'movies.show' id=movie.id %}" class="btn bg-dark text-white">
-              {{ movie.name }}
-            </a>
-          </div>
+      <div class="movie-card">
+        <img src="{{ movie.image.url }}" class="movie-image" alt="{{ movie.name }}">
+        <div class="card-body text-center">
+          <a href="{% url 'movies.show' id=movie.id %}" class="btn w-100">
+            <p class="movie-title">{{ movie.name }}</p>
+          </a>
         </div>
       </div>
       {% endfor %}
     </div>
   </div>
 </div>
+
 {% endblock content %}
