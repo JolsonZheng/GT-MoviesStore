@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
-from .forms import CustomUserCreationForm, CustomErrorList
+from .forms import CustomUserCreationForm, CustomErrorList, PasswordResetForm
+from .models import PasswordReset
 # Create your views here.
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
@@ -49,3 +50,30 @@ def orders(request):
     template_data['title'] = 'Orders'
     template_data['orders'] = request.user.order_set.all()
     return render(request, 'accounts/orders.html', {'template_data': template_data})
+
+def password_reset(request):
+    template_data = {}
+    template_data['title'] = 'Password Reset'
+    if request.method == 'GET':
+        template_data['form'] = PasswordResetForm()
+        return render(request, 'accounts/password_reset.html', {'template_data': template_data})
+    elif request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            question = form.cleaned_data['question']
+            answer = form.cleaned_data['answer']
+            new_password = form.cleaned_data['new_password']
+            try:
+                user = User.objects.get(username=username)
+                password_reset = PasswordReset.objects.get(user=user, question=question, answer=answer)
+                user.set_password(new_password)
+                user.save()
+                return redirect('accounts.login')
+            except (User.DoesNotExist, PasswordReset.DoesNotExist):
+                template_data['error'] = 'The username, question, or answer is incorrect.'
+                template_data['form'] = form
+                return render(request, 'accounts/password_reset.html', {'template_data': template_data})
+        else:
+            template_data['form'] = form
+            return render(request, 'accounts/password_reset.html', {'template_data': template_data})
