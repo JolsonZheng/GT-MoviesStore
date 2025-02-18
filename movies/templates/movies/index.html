@@ -40,7 +40,7 @@
     filter: brightness(1.1);
   }
 
-  /* Grid layout for movie cards */
+
   .movie-card {
     background-color: #222;
     border-radius: 10px;
@@ -49,31 +49,29 @@
   }
 
   .movie-card:hover {
-    transform: scale(1.05); /* Slight zoom on hover */
+    transform: scale(1.05); 
   }
 
   /* Card images */
   .movie-image {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 10px;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
   }
 
   .movie-title {
-    font-size: 16px;
+    font-size: 1rem;
     font-weight: bold;
     color: #fff;
+    text-align: center;
+    margin: 10px 0;
   }
-
-  /* Container for the movie grid */
   .movie-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 20px;
   }
 
-  /* Search bar style */
   .search-bar {
     background-color: #222;
     padding: 15px;
@@ -85,6 +83,7 @@
 
 <div class="p-3">
   <div class="container">
+    
     <!-- Search Bar -->
     <div class="search-container text-center">
       <h2>List of Movies</h2>
