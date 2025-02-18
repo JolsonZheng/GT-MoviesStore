@@ -13,7 +13,7 @@
               {{ template_data.error }}
             </div>
             {% endif %}
-            <form method="POST">
+            <form method="POST" style="color: white;">
               {% csrf_token %}
               <p>
                 <label for="username">Username</label>
@@ -31,7 +31,7 @@
               </p>
               <div class="text-center">
                 <button type="submit"
-                  class="btn bg-dark text-white">Login
+                  class="btn bg-danger text-white">Login
                 </button>
               </div>
             </form>
