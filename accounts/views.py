@@ -55,10 +55,10 @@ def password_reset(request):
     template_data = {}
     template_data['title'] = 'Password Reset'
     if request.method == 'GET':
-        template_data['form'] = PasswordResetForm()
+        template_data['form'] = PasswordResetForm(error_class=CustomErrorList)
         return render(request, 'accounts/password_reset.html', {'template_data': template_data})
     elif request.method == 'POST':
-        form = PasswordResetForm(request.POST)
+        form = PasswordResetForm(request.POST, error_class=CustomErrorList)
         if form.is_valid():
             username = form.cleaned_data['username']
             question = form.cleaned_data['question']
