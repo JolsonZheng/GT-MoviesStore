@@ -1,15 +1,17 @@
 from django.shortcuts import render
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .forms import CustomUserCreationForm, CustomErrorList
-# Create your views here.
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+
 @login_required
 def logout(request):
     auth_logout(request)
     return redirect('home.index')
+
 def login(request):
     template_data = {}
     template_data['title'] = 'Login'
@@ -29,6 +31,7 @@ def login(request):
         else:
             auth_login(request, user)
             return redirect('home.index')
+
 def signup(request):
     template_data = {}
     template_data['title'] = 'Sign Up'
@@ -43,9 +46,28 @@ def signup(request):
         else:
             template_data['form'] = form
             return render(request, 'accounts/signup.html', {'template_data': template_data})
+
 @login_required
 def orders(request):
     template_data = {}
     template_data['title'] = 'Orders'
     template_data['orders'] = request.user.order_set.all()
     return render(request, 'accounts/orders.html', {'template_data': template_data})
+
+def password_reset_request(request):
+    template_data = {'title': 'Password Reset'}
+    if request.method == 'POST':
+        username = request.POST['username']
+        pet_name = request.POST['pet_name']  # Change field name to pet_name
+        new_password = request.POST['new_password']
+        try:
+            user = User.objects.get(username=username)
+            if user.profile.pet_name == pet_name:  # Change field name to pet_name
+                user.set_password(new_password)
+                user.save()
+                template_data['success'] = 'Password reset successfully.'
+            else:
+                template_data['error'] = 'Incorrect pet name.'
+        except ObjectDoesNotExist:
+            template_data['error'] = 'User does not exist.'
+    return render(request, 'accounts/password_reset.html', {'template_data': template_data})
